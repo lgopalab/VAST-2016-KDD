@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 60px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: lightsteelblue;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+
+.legend rect {
+  fill:white;
+  stroke:black;
+  opacity:0.8;}
+
+</style>
+<body>
+
+</body>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="d3.legend.js"></script>
+
+
+<script>
+
+var margin = {top: 20, right: 30, bottom: 100, left: 70},
+    width = 8000 - margin.left - margin.right,
+    height = 4000 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%-m/%-e/%Y %-H:%M").parse;
+var formatDate = d3.time.format("%B-%d %H:%M");
+
+var y = d3.scale.ordinal()
+    .rangeRoundBands([50, height], .1);
+
+var x = d3.time.scale()
+    .range([width, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickFormat(d3.time.format("%B-%d %H:%M"))
+    .ticks(40);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var div = d3.select("body").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);    
+
+
+	filename = "data/proxOut-MC2.csv";
+
+	var svg = d3.select("body").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+	d3.csv("data/id_department.csv",function(error,data){
+			data.forEach(function(d){
+				d.proxid = d.proxid;
+				d.department = d.department;
+				d.floor = d.floor;
+				d.zone = d.zone
+			});
+
+			y.domain(data.map(function(d) { return d.proxid; }));
+
+			svg.selectAll("bar")
+			  .data(data)
+			.enter().append("rect")
+			  .attr("class","rectangles")
+			  .attr("data-legend",function(d) { return d.department})
+			  .style("fill", function(d){if(d.department=="Engineering"){return "#C2FF9F"}else if(d.department=="Executive") {return "#E8C988";}else if(d.department=="Facilities") {return "#FFA5A5";}else if(d.department=="Security") {return "#B4A7E8";}else if(d.department=="Administration") {return "#98FFF3";}else if(d.department=="Information Technology") {return "#BCDBFF";}else if(d.department=="HR") {return "#FF9D5D";}})
+			  .attr("x", "0")
+			  .attr("width", width)
+			  .attr("y", function(d) { return y(d.proxid); })
+			  .attr("height", y.rangeBand());
+
+			  legend = svg.append("g")
+				.attr("class","legend")
+				.attr("transform","translate(50,-5)")
+				.style("font-size","12px")
+				.call(d3.legend)
+
+			d3.csv(filename, function(error, data) 
+			{
+				console.log(data);
+				data.forEach(function(d) 
+				{
+					d.timestamp = parseDate(d.timestamp);
+					d.proxid = d.proxid;
+					d.office = parseInt(d.office);
+					}
+				);	
+				
+
+
+			x.domain(d3.extent(data, function(d) { return d.timestamp; }));
+			
+			   
+			svg.append("g")
+			  .attr("class", "x axis")
+			  .attr("transform", "translate(0," + height + ")")
+			  .call(xAxis)
+			  .selectAll("text")  
+				.style("text-anchor", "end")
+				.attr("dx", "-.8em")
+				.attr("dy", ".15em")
+				.attr("transform", "rotate(-65)");
+
+
+			svg.append("g")
+			  .attr("class", "y axis")
+			  .call(yAxis)
+			.append("text")
+			  .attr("transform", "rotate(-90)")
+			  .attr("y", 20)
+			  .attr("dy", ".20em")
+			  .style("text-anchor", "end")
+			  .text("Employee ID's");
+
+			 d3.selectAll("axisElement")
+  				.style("font-size","6px"); 
+
+			svg.selectAll("bar")
+			  .data(data)
+			.enter().append("rect")
+			  .attr("class","rectangles")
+			  .style("fill", function(d){if(d.office==1){return "steelblue"}else {return "red";}})
+			  .attr("x", function(d) { return x(d.timestamp); })
+			  .attr("width", "1px")
+			  .attr("y", function(d) { return y(d.proxid); })
+			  .attr("height", y.rangeBand())
+			  .on("mouseover", function(d) {      
+		            div.transition()        
+		                .duration(100)      
+		                .style("opacity", .9)
+		                .style("height","50px")
+		                .style("width","200px");      
+		            div .html("Time : "+formatDate(d.timestamp) + "<br/> ID : "  + d.proxid+ "<br/> Floor : "  + d.floor+ "<br/> Zone : "  + d.zone)  
+		                .style("left", (d3.event.pageX) + "px")     
+		                .style("top", (d3.event.pageY - 28) + "px");    
+		            })                  
+			    .on("mouseout", function(d) {       
+			        div.transition()        
+			            .duration(500)      
+			            .style("opacity", 0);   
+			    });
+
+
+			});
+
+	});
+	
+</script>
+</html>

@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 9300.16.0708.1543                                -->
+<workbook source-build='9.3.4 (9300.16.0708.1543)' source-platform='win' version='9.3' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='Employee List (Employee List)' inline='true' name='excel-direct.1fmie9z1lkik84149f2gw1glhx3l' version='9.3'>
+      <connection class='excel-direct' cleaning='no' compat='no' dataRefreshTime='' filename='D:\Classes\Summer 2016\Knowledge Discovery in Databases\Final Project\FinalProjectData\Employee List\Employee List.xlsx' interpretationMode='0' password='' server='' validate='no'>
+        <relation name='Employee List' table='[&apos;Employee List$&apos;]' type='table'>
+          <columns gridOrigin='A1:I126:no:A1:I126:0' header='yes' outcome='2'>
+            <column datatype='integer' name='F1' ordinal='0' />
+            <column datatype='string' name='Last Name' ordinal='1' />
+            <column datatype='string' name='First Name' ordinal='2' />
+            <column datatype='string' name='Department' ordinal='3' />
+            <column datatype='integer' name='Office' ordinal='4' />
+            <column datatype='integer' name='Floor' ordinal='5' />
+            <column datatype='integer' name='Zone' ordinal='6' />
+            <column datatype='string' name='F8' ordinal='7' />
+            <column datatype='integer' name='F9' ordinal='8' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>F1</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[F1]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>F1</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Last Name</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Last Name]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>Last Name</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>First Name</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[First Name]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>First Name</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Department</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Department]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>Department</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Office</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Office]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>Office</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Floor</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Floor]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>Floor</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Zone</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Zone]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>Zone</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>F8</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[F8]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>F8</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>F9</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[F9]</local-name>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias>F9</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[Employee List]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:I126:no:A1:I126:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>2</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='string' name='[Department]' role='dimension' type='nominal' />
+      <column caption='sno' datatype='integer' name='[F1]' role='measure' type='quantitative' />
+      <column caption='id_floor_zone' datatype='string' name='[F8]' role='dimension' type='nominal' />
+      <column datatype='integer' name='[Floor]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column-instance column='[Floor]' derivation='Attribute' name='[attr:Floor:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[F1]' derivation='Count' name='[cnt:F1:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Department]' derivation='None' name='[none:Department:nk]' pivot='key' type='nominal' />
+      <column-instance column='[Floor]' derivation='None' name='[none:Floor:ok]' pivot='key' type='ordinal' />
+      <column-instance column='[Floor]' derivation='None' name='[none:Floor:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Floor]' derivation='Sum' name='[sum:Floor:qk]' pivot='key' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.472611' measure-ordering='alphabetic' measure-percentage='0.527389' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:Department:nk]' type='palette'>
+            <map to='#1f77b4'>
+              <bucket>&quot;Administration&quot;</bucket>
+            </map>
+            <map to='#2ca02c'>
+              <bucket>&quot;Executive&quot;</bucket>
+            </map>
+            <map to='#8c564b'>
+              <bucket>&quot;Information Technology&quot;</bucket>
+            </map>
+            <map to='#9467bd'>
+              <bucket>&quot;HR&quot;</bucket>
+            </map>
+            <map to='#d62728'>
+              <bucket>&quot;Facilities&quot;</bucket>
+            </map>
+            <map to='#e377c2'>
+              <bucket>&quot;Security&quot;</bucket>
+            </map>
+            <map to='#ff7f0e'>
+              <bucket>&quot;Engineering&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#1f77b4'>
+              <bucket>&quot;[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]&quot;</bucket>
+            </map>
+            <map to='#2ca02c'>
+              <bucket>&quot;[excel-direct.1fmie9z1lkik84149f2gw1glhx3l]&quot;</bucket>
+            </map>
+            <map to='#ff7f0e'>
+              <bucket>&quot;[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[attr:Floor:qk]&quot;</bucket>
+            </map>
+            <map to='#ff7f0e'>
+              <bucket>&quot;[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Floor:qk]&quot;</bucket>
+            </map>
+            <map to='#ff7f0e'>
+              <bucket>&quot;[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[sum:Floor:qk]&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[none:Floor:ok]' type='palette'>
+            <map to='#1f77b4'>
+              <bucket>3</bucket>
+            </map>
+            <map to='#2ca02c'>
+              <bucket>1</bucket>
+            </map>
+            <map to='#ff7f0e'>
+              <bucket>2</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='F1' />
+        <field-sort-custom-order field='Last Name' />
+        <field-sort-custom-order field='First Name' />
+        <field-sort-custom-order field='Department' />
+        <field-sort-custom-order field='Office' />
+        <field-sort-custom-order field='Floor' />
+        <field-sort-custom-order field='Zone' />
+        <field-sort-custom-order field='F8' />
+        <field-sort-custom-order field='F9' />
+      </field-sort-info>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Sheet 2'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Employee List (Employee List)' name='excel-direct.1fmie9z1lkik84149f2gw1glhx3l' />
+          </datasources>
+          <datasource-dependencies datasource='excel-direct.1fmie9z1lkik84149f2gw1glhx3l'>
+            <column datatype='string' name='[Department]' role='dimension' type='nominal' />
+            <column caption='sno' datatype='integer' name='[F1]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[Floor]' role='measure' type='quantitative' />
+            <column-instance column='[F1]' derivation='Count' name='[cnt:F1:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Department]' derivation='None' name='[none:Department:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Floor]' derivation='None' name='[none:Floor:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <sort class='computed' column='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Department:nk]' direction='DESC' using='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]'>
+            <groupfilter function='member' level='[none:Floor:ok]' member='2' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </sort>
+          <sort class='computed' column='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Floor:ok]' direction='DESC' using='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]'>
+            <groupfilter function='member' level='[none:Department:nk]' member='&quot;Administration&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </sort>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='width' field='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]' value='77' />
+            <format attr='subtitle' class='0' field='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]' scope='rows' value='' />
+            <format attr='auto-subtitle' class='0' field='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]' scope='rows' value='true' />
+            <format attr='display' class='0' field='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]' scope='rows' value='true' />
+            <format attr='title' class='0' field='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk]' scope='rows' value='Number of Employees' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='width' field='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Department:nk]' value='134' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Floor:ok]' value='44' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane id='3'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Floor:ok]' />
+            </encodings>
+            <style>
+              <style-rule element='cell'>
+                <format attr='text-orientation' value='0' />
+                <format attr='vertical-align' value='center' />
+                <format attr='text-align' value='center' />
+              </style-rule>
+              <style-rule element='datalabel'>
+                <format attr='color-mode' value='auto' />
+                <format attr='font-size' value='10' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-color' value='#d8504c' />
+                <format attr='size' value='1.1864088773727417' />
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-mode' value='all' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Floor:ok] * [excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[cnt:F1:qk])</rows>
+        <cols>[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Department:nk]</cols>
+      </table>
+    </worksheet>
+  </worksheets>
+  <windows source-height='32'>
+    <window class='worksheet' maximized='true' name='Sheet 2'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card pane-specification-id='3' param='[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Floor:ok]' type='color' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Department:nk]</field>
+            <field>[excel-direct.1fmie9z1lkik84149f2gw1glhx3l].[none:Floor:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Sheet 2' width='192'>
+      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
+      Wk1Fz6dR9fgAAAAASUVORK5CYII=
+    </thumbnail>
+  </thumbnails>
+</workbook>

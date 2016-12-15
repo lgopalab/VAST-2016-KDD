@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  stroke: #000;
+}
+
+.line {
+ fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+</style>
+<body>
+<select id="OptionList" onchange="optionSelection()"></select>
+<br>
+</body>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 1500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%Y-%m-%e %H:%M:%S").parse;
+var formatDate = d3.time.format("%H");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.value); });
+
+var files = [
+   "Drybulb_Temperature","Water_Heater_Tank_Temperature","Water_Heater_Gas_Rate","Supply_Side_Inlet_Mass_Flow_Rate","Supply_Side_Inlet_Temperature","Supply_Side_Outlet_Temperature","HVAC_Electric_Demand_Power","Total_Electric_Demand_Power","Loop_Temp_Schedule","Water_Heater_Setpoint","DELI-FAN_Power","Pump_Power","F_1_Z_1__Lights_Power","F_1_Z_2__Lights_Power","F_1_Z_3__Lights_Power","F_1_Z_4__Lights_Power","F_1_Z_5__Lights_Power","F_1_Z_7__Lights_Power","F_1_Z_8A__Lights_Power","F_1_Z_8B__Lights_Power","F_1_Z_1__Equipment_Power","F_1_Z_2__Equipment_Power","F_1_Z_3__Equipment_Power","F_1_Z_4__Equipment_Power","F_1_Z_5__Equipment_Power","F_1_Z_7__Equipment_Power","F_1_Z_8A__Equipment_Power","F_1_Z_8B__Equipment_Power","F_1_Z_1__Thermostat_Temp","F_1_Z_1__Thermostat_Heating_Setpoint","F_1_Z_1__Thermostat_Cooling_Setpoint","F_1_Z_2__Thermostat_Temp","F_1_Z_2__Thermostat_Heating_Setpoint","F_1_Z_2__Thermostat_Cooling_Setpoint","F_1_Z_3__Thermostat_Temp","F_1_Z_3__Thermostat_Heating_Setpoint","F_1_Z_3__Thermostat_Cooling_Setpoint","F_1_Z_4__Thermostat_Temp","F_1_Z_4__Thermostat_Heating_Setpoint","F_1_Z_4__Thermostat_Cooling_Setpoint","F_1_Z_5__Thermostat_Temp","F_1_Z_5__Thermostat_Heating_Setpoint","F_1_Z_5__Thermostat_Cooling_Setpoint","F_1_Z_7__Thermostat_Temp","F_1_Z_7__Thermostat_Heating_Setpoint","F_1_Z_7__Thermostat_Cooling_Setpoint","F_1_Z_8A__Thermostat_Temp","F_1_Z_8A__Thermostat_Heating_Setpoint","F_1_Z_8A__Thermostat_Cooling_Setpoint","F_1_Z_8B__Thermostat_Temp","F_1_Z_8B__Thermostat_Heating_Setpoint","F_1_Z_8B__Thermostat_Cooling_Setpoint","F_1_VAV_Availability_Manager_Night_Cycle_Control_Status","F_1_VAV_SYS_SUPPLY_FAN_Fan_Power","F_1_BATH_EXHAUST_Fan_Power","F_1_Z_1_VAV_REHEAT_Damper_Position","F_1_Z_2_VAV_REHEAT_Damper_Position","F_1_Z_3_VAV_REHEAT_Damper_Position","F_1_Z_4_VAV_REHEAT_Damper_Position","F_1_Z_5_VAV_REHEAT_Damper_Position","F_1_Z_7_VAV_REHEAT_Damper_Position","F_1_Z_8A_VAV_REHEAT_Damper_Position","F_1_Z_8B_VAV_REHEAT_Damper_Position","F_1_Z_1_REHEAT_COIL_Power","F_1_Z_2_REHEAT_COIL_Power","F_1_Z_3_REHEAT_COIL_Power","F_1_Z_4_REHEAT_COIL_Power","F_1_Z_5_REHEAT_COIL_Power","F_1_Z_7_REHEAT_COIL_Power","F_1_Z_8A_REHEAT_COIL_Power","F_1_Z_8B_REHEAT_COIL_Power","F_1_VAV_SYS_HEATING_COIL_Power","F_1_VAV_SYS_Outdoor_Air_Flow_Fraction","F_1_VAV_SYS_Outdoor_Air_Mass_Flow_Rate","F_1_VAV_SYS_COOLING_COIL_Power","F_1_VAV_SYS_AIR_LOOP_INLET_Temperature","F_1_VAV_SYS_AIR_LOOP_INLET_Mass_Flow_Rate","F_1_VAV_SYS_SUPPLY_FAN_OUTLET_Temperature","F_1_VAV_SYS_SUPPLY_FAN_OUTLET_Mass_Flow_Rate","F_1_Z_1_RETURN_OUTLET_CO2_Concentration","F_1_Z_1_SUPPLY_INLET_Temperature","F_1_Z_1_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_2_RETURN_OUTLET_CO2_Concentration","F_1_Z_2_SUPPLY_INLET_Temperature","F_1_Z_2_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_3_RETURN_OUTLET_CO2_Concentration","F_1_Z_3_SUPPLY_INLET_Temperature","F_1_Z_3_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_4_RETURN_OUTLET_CO2_Concentration","F_1_Z_4_SUPPLY_INLET_Temperature","F_1_Z_4_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_5_RETURN_OUTLET_CO2_Concentration","F_1_Z_5_SUPPLY_INLET_Temperature","F_1_Z_5_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_7_RETURN_OUTLET_CO2_Concentration","F_1_Z_7_SUPPLY_INLET_Temperature","F_1_Z_7_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_8A_RETURN_OUTLET_CO2_Concentration","F_1_Z_8A_SUPPLY_INLET_Temperature","F_1_Z_8A_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_8B_RETURN_OUTLET_CO2_Concentration","F_1_Z_8B_SUPPLY_INLET_Temperature","F_1_Z_8B_SUPPLY_INLET_Mass_Flow_Rate","F_1_Z_1__Mechanical_Ventilation_Mass_Flow_Rate","F_2_Z_1__Lights_Power","F_2_Z_10__Lights_Power","F_2_Z_11__Lights_Power","F_2_Z_12A__Lights_Power","F_2_Z_12B__Lights_Power","F_2_Z_12C__Lights_Power","F_2_Z_14__Lights_Power","F_2_Z_15__Lights_Power","F_2_Z_16__Lights_Power","F_2_Z_2__Lights_Power","F_2_Z_3__Lights_Power","F_2_Z_4__Lights_Power","F_2_Z_5__Lights_Power","F_2_Z_6__Lights_Power","F_2_Z_7__Lights_Power","F_2_Z_8__Lights_Power","F_2_Z_9__Lights_Power","F_2_Z_1__Equipment_Power","F_2_Z_10__Equipment_Power","F_2_Z_11__Equipment_Power","F_2_Z_12A__Equipment_Power","F_2_Z_12B__Equipment_Power","F_2_Z_12C__Equipment_Power","F_2_Z_14__Equipment_Power","F_2_Z_15__Equipment_Power","F_2_Z_16__Equipment_Power","F_2_Z_2__Equipment_Power","F_2_Z_3__Equipment_Power","F_2_Z_4__Equipment_Power","F_2_Z_5__Equipment_Power","F_2_Z_6__Equipment_Power","F_2_Z_7__Equipment_Power","F_2_Z_8__Equipment_Power","F_2_Z_9__Equipment_Power","F_2_Z_1__Thermostat_Temp","F_2_Z_1__Thermostat_Heating_Setpoint","F_2_Z_1__Thermostat_Cooling_Setpoint","F_2_Z_10__Thermostat_Temp","F_2_Z_10__Thermostat_Heating_Setpoint","F_2_Z_10__Thermostat_Cooling_Setpoint","F_2_Z_11__Thermostat_Temp","F_2_Z_11__Thermostat_Heating_Setpoint","F_2_Z_11__Thermostat_Cooling_Setpoint","F_2_Z_12A__Thermostat_Temp","F_2_Z_12A__Thermostat_Heating_Setpoint","F_2_Z_12A__Thermostat_Cooling_Setpoint","F_2_Z_12B__Thermostat_Temp","F_2_Z_12B__Thermostat_Heating_Setpoint","F_2_Z_12B__Thermostat_Cooling_Setpoint","F_2_Z_12C__Thermostat_Temp","F_2_Z_12C__Thermostat_Heating_Setpoint","F_2_Z_12C__Thermostat_Cooling_Setpoint","F_2_Z_14__Thermostat_Temp","F_2_Z_14__Thermostat_Heating_Setpoint","F_2_Z_14__Thermostat_Cooling_Setpoint","F_2_Z_15__Thermostat_Temp","F_2_Z_15__Thermostat_Heating_Setpoint","F_2_Z_15__Thermostat_Cooling_Setpoint","F_2_Z_16__Thermostat_Temp","F_2_Z_16__Thermostat_Heating_Setpoint","F_2_Z_16__Thermostat_Cooling_Setpoint","F_2_Z_2__Thermostat_Temp","F_2_Z_2__Thermostat_Heating_Setpoint","F_2_Z_2__Thermostat_Cooling_Setpoint","F_2_Z_3__Thermostat_Temp","F_2_Z_3__Thermostat_Heating_Setpoint","F_2_Z_3__Thermostat_Cooling_Setpoint","F_2_Z_4__Thermostat_Temp","F_2_Z_4__Thermostat_Heating_Setpoint","F_2_Z_4__Thermostat_Cooling_Setpoint","F_2_Z_5__Thermostat_Temp","F_2_Z_5__Thermostat_Heating_Setpoint","F_2_Z_5__Thermostat_Cooling_Setpoint","F_2_Z_6__Thermostat_Temp","F_2_Z_6__Thermostat_Heating_Setpoint","F_2_Z_6__Thermostat_Cooling_Setpoint","F_2_Z_7__Thermostat_Temp","F_2_Z_7__Thermostat_Heating_Setpoint","F_2_Z_7__Thermostat_Cooling_Setpoint","F_2_Z_8__Thermostat_Temp","F_2_Z_8__Thermostat_Heating_Setpoint","F_2_Z_8__Thermostat_Cooling_Setpoint","F_2_Z_9__Thermostat_Temp","F_2_Z_9__Thermostat_Heating_Setpoint","F_2_Z_9__Thermostat_Cooling_Setpoint","F_2_VAV_SYS_SUPPLY_FAN_Fan_Power","F_2_BATH_EXHAUST_Fan_Power","F_2_Z_1_VAV_REHEAT_Damper_Position","F_2_Z_2_VAV_REHEAT_Damper_Position","F_2_Z_3_VAV_REHEAT_Damper_Position","F_2_Z_4_VAV_REHEAT_Damper_Position","F_2_Z_5_VAV_REHEAT_Damper_Position","F_2_Z_6_VAV_REHEAT_Damper_Position","F_2_Z_7_VAV_REHEAT_Damper_Position","F_2_Z_8_VAV_REHEAT_Damper_Position","F_2_Z_9_VAV_REHEAT_Damper_Position","F_2_Z_10_VAV_REHEAT_Damper_Position","F_2_Z_11_VAV_REHEAT_Damper_Position","F_2_Z_12A_VAV_REHEAT_Damper_Position","F_2_Z_12B_VAV_REHEAT_Damper_Position","F_2_Z_12C_VAV_REHEAT_Damper_Position","F_2_Z_14_VAV_REHEAT_Damper_Position","F_2_Z_15_VAV_REHEAT_Damper_Position","F_2_Z_16_VAV_REHEAT_Damper_Position","F_2_Z_1_REHEAT_COIL_Power","F_2_Z_2_REHEAT_COIL_Power","F_2_Z_3_REHEAT_COIL_Power","F_2_Z_4_REHEAT_COIL_Power","F_2_Z_5_REHEAT_COIL_Power","F_2_Z_6_REHEAT_COIL_Power","F_2_Z_7_REHEAT_COIL_Power","F_2_Z_8_REHEAT_COIL_Power","F_2_Z_9_REHEAT_COIL_Power","F_2_Z_10_REHEAT_COIL_Power","F_2_Z_11_REHEAT_COIL_Power","F_2_Z_12A_REHEAT_COIL_Power","F_2_Z_12B_REHEAT_COIL_Power","F_2_Z_12C_REHEAT_COIL_Power","F_2_Z_14_REHEAT_COIL_Power","F_2_Z_15_REHEAT_COIL_Power","F_2_Z_16_REHEAT_COIL_Power","F_2_VAV_SYS_HEATING_COIL_Power","F_2_VAV_SYS_Outdoor_Air_Flow_Fraction","F_2_VAV_SYS_Outdoor_Air_Mass_Flow_Rate","F_2_VAV_SYS_COOLING_COIL_Power","F_2_VAV_SYS_AIR_LOOP_INLET_Temperature","F_2_VAV_SYS_AIR_LOOP_INLET_Mass_Flow_Rate","F_2_VAV_SYS_SUPPLY_FAN_OUTLET_Temperature","F_2_VAV_SYS_SUPPLY_FAN_OUTLET_Mass_Flow_Rate","F_2_Z_1_RETURN_OUTLET_CO2_Concentration","F_2_Z_1_SUPPLY_INLET_Temperature","F_2_Z_1_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_2_RETURN_OUTLET_CO2_Concentration","F_2_Z_2_SUPPLY_INLET_Temperature","F_2_Z_2_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_3_RETURN_OUTLET_CO2_Concentration","F_2_Z_3_SUPPLY_INLET_Temperature","F_2_Z_3_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_4_RETURN_OUTLET_CO2_Concentration","F_2_Z_4_SUPPLY_INLET_Temperature","F_2_Z_4_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_5_RETURN_OUTLET_CO2_Concentration","F_2_Z_5_SUPPLY_INLET_Temperature","F_2_Z_5_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_6_RETURN_OUTLET_CO2_Concentration","F_2_Z_6_SUPPLY_INLET_Temperature","F_2_Z_6_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_7_RETURN_OUTLET_CO2_Concentration","F_2_Z_7_SUPPLY_INLET_Temperature","F_2_Z_7_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_8_RETURN_OUTLET_CO2_Concentration","F_2_Z_8_SUPPLY_INLET_Temperature","F_2_Z_8_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_9_RETURN_OUTLET_CO2_Concentration","F_2_Z_9_SUPPLY_INLET_Temperature","F_2_Z_9_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_10_RETURN_OUTLET_CO2_Concentration","F_2_Z_10_SUPPLY_INLET_Temperature","F_2_Z_10_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_11_RETURN_OUTLET_CO2_Concentration","F_2_Z_11_SUPPLY_INLET_Temperature","F_2_Z_11_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_12A_RETURN_OUTLET_CO2_Concentration","F_2_Z_12A_SUPPLY_INLET_Temperature","F_2_Z_12A_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_12B_RETURN_OUTLET_CO2_Concentration","F_2_Z_12B_SUPPLY_INLET_Temperature","F_2_Z_12B_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_12C_RETURN_OUTLET_CO2_Concentration","F_2_Z_12C_SUPPLY_INLET_Temperature","F_2_Z_12C_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_14_RETURN_OUTLET_CO2_Concentration","F_2_Z_14_SUPPLY_INLET_Temperature","F_2_Z_14_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_15_RETURN_OUTLET_CO2_Concentration","F_2_Z_15_SUPPLY_INLET_Temperature","F_2_Z_15_SUPPLY_INLET_Mass_Flow_Rate","F_2_Z_16_RETURN_OUTLET_CO2_Concentration","F_2_Z_16_SUPPLY_INLET_Temperature","F_2_Z_16_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_1__Lights_Power","F_3_Z_10__Lights_Power","F_3_Z_11A__Lights_Power","F_3_Z_11B__Lights_Power","F_3_Z_11C__Lights_Power","F_3_Z_2__Lights_Power","F_3_Z_3__Lights_Power","F_3_Z_5__Lights_Power","F_3_Z_6__Lights_Power","F_3_Z_7__Lights_Power","F_3_Z_8__Lights_Power","F_3_Z_9__Lights_Power","F_3_Z_9__Equipment_Power","F_3_Z_1__Equipment_Power","F_3_Z_10__Equipment_Power","F_3_Z_11A__Equipment_Power","F_3_Z_11B__Equipment_Power","F_3_Z_11C__Equipment_Power","F_3_Z_2__Equipment_Power","F_3_Z_3__Equipment_Power","F_3_Z_5__Equipment_Power","F_3_Z_6__Equipment_Power","F_3_Z_7__Equipment_Power","F_3_Z_8__Equipment_Power","F_3_Z_1__Thermostat_Temp","F_3_Z_1__Thermostat_Heating_Setpoint","F_3_Z_1__Thermostat_Cooling_Setpoint","F_3_Z_10__Thermostat_Temp","F_3_Z_10__Thermostat_Heating_Setpoint","F_3_Z_10__Thermostat_Cooling_Setpoint","F_3_Z_11A__Thermostat_Temp","F_3_Z_11A__Thermostat_Heating_Setpoint","F_3_Z_11A__Thermostat_Cooling_Setpoint","F_3_Z_11B__Thermostat_Temp","F_3_Z_11B__Thermostat_Heating_Setpoint","F_3_Z_11B__Thermostat_Cooling_Setpoint","F_3_Z_11C__Thermostat_Temp","F_3_Z_11C__Thermostat_Heating_Setpoint","F_3_Z_11C__Thermostat_Cooling_Setpoint","F_3_Z_2__Thermostat_Temp","F_3_Z_2__Thermostat_Heating_Setpoint","F_3_Z_2__Thermostat_Cooling_Setpoint","F_3_Z_3__Thermostat_Temp","F_3_Z_3__Thermostat_Heating_Setpoint","F_3_Z_3__Thermostat_Cooling_Setpoint","F_3_Z_5__Thermostat_Temp","F_3_Z_5__Thermostat_Heating_Setpoint","F_3_Z_5__Thermostat_Cooling_Setpoint","F_3_Z_6__Thermostat_Temp","F_3_Z_6__Thermostat_Heating_Setpoint","F_3_Z_6__Thermostat_Cooling_Setpoint","F_3_Z_7__Thermostat_Temp","F_3_Z_7__Thermostat_Heating_Setpoint","F_3_Z_7__Thermostat_Cooling_Setpoint","F_3_Z_8__Thermostat_Temp","F_3_Z_8__Thermostat_Heating_Setpoint","F_3_Z_8__Thermostat_Cooling_Setpoint","F_3_Z_9__Thermostat_Temp","F_3_Z_9__Thermostat_Heating_Setpoint","F_3_Z_9__Thermostat_Cooling_Setpoint","F_3_VAV_Availability_Manager_Night_Cycle_Control_Status","F_3_VAV_SYS_SUPPLY_FAN_Fan_Power","F_3_BATH_EXHAUST_Fan_Power","F_3_Z_1_VAV_REHEAT_Damper_Position","F_3_Z_2_VAV_REHEAT_Damper_Position","F_3_Z_3_VAV_REHEAT_Damper_Position","F_3_Z_5_VAV_REHEAT_Damper_Position","F_3_Z_6_VAV_REHEAT_Damper_Position","F_3_Z_7_VAV_REHEAT_Damper_Position","F_3_Z_8_VAV_REHEAT_Damper_Position","F_3_Z_10_VAV_REHEAT_Damper_Position","F_3_Z_11A_VAV_REHEAT_Damper_Position","F_3_Z_11B_VAV_REHEAT_Damper_Position","F_3_Z_11C_VAV_REHEAT_Damper_Position","F_3_Z_9_VAV_Damper_Position","F_3_Z_1_REHEAT_COIL_Power","F_3_Z_2_REHEAT_COIL_Power","F_3_Z_3_REHEAT_COIL_Power","F_3_Z_5_REHEAT_COIL_Power","F_3_Z_6_REHEAT_COIL_Power","F_3_Z_7_REHEAT_COIL_Power","F_3_Z_8_REHEAT_COIL_Power","F_3_Z_10_REHEAT_COIL_Power","F_3_Z_11A_REHEAT_COIL_Power","F_3_Z_11B_REHEAT_COIL_Power","F_3_Z_11C_REHEAT_COIL_Power","F_3_Z_12_REHEAT_COIL_Power","F_3_VAV_SYS_HEATING_COIL_Power","F_3_VAV_SYS_Outdoor_Air_Flow_Fraction","F_3_VAV_SYS_Outdoor_Air_Mass_Flow_Rate","F_3_VAV_SYS_COOLING_COIL_Power","F_3_VAV_SYS_AIR_LOOP_INLET_Temperature","F_3_VAV_SYS_AIR_LOOP_INLET_Mass_Flow_Rate","F_3_VAV_SYS_SUPPLY_FAN_OUTLET_Temperature","F_3_VAV_SYS_SUPPLY_FAN_OUTLET_Mass_Flow_Rate","F_3_Z_1_RETURN_OUTLET_CO2_Concentration","F_3_Z_1_SUPPLY_INLET_Temperature","F_3_Z_1_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_2_RETURN_OUTLET_CO2_Concentration","F_3_Z_2_SUPPLY_INLET_Temperature","F_3_Z_2_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_3_RETURN_OUTLET_CO2_Concentration","F_3_Z_3_SUPPLY_INLET_Temperature","F_3_Z_3_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_5_RETURN_OUTLET_CO2_Concentration","F_3_Z_5_SUPPLY_INLET_Temperature","F_3_Z_5_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_6_RETURN_OUTLET_CO2_Concentration","F_3_Z_6_SUPPLY_INLET_Temperature","F_3_Z_6_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_7_RETURN_OUTLET_CO2_Concentration","F_3_Z_7_SUPPLY_INLET_Temperature","F_3_Z_7_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_8_RETURN_OUTLET_CO2_Concentration","F_3_Z_8_SUPPLY_INLET_Temperature","F_3_Z_8_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_9_RETURN_OUTLET_CO2_Concentration","F_3_Z_9_SUPPLY_INLET_Temperature","F_3_Z_9_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_10_RETURN_OUTLET_CO2_Concentration","F_3_Z_10_SUPPLY_INLET_Temperature","F_3_Z_10_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_11A_RETURN_OUTLET_CO2_Concentration","F_3_Z_11A_SUPPLY_INLET_Temperature","F_3_Z_11A_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_11B_RETURN_OUTLET_CO2_Concentration","F_3_Z_11B_SUPPLY_INLET_Temperature","F_3_Z_11B_SUPPLY_INLET_Mass_Flow_Rate","F_3_Z_11C_RETURN_OUTLET_CO2_Concentration","F_3_Z_11C_SUPPLY_INLET_Temperature","F_3_Z_11C_SUPPLY_INLET_Mass_Flow_Rate"
+];
+
+	var sel = document.getElementById('OptionList');
+	for(var i = 0; i < files.length; i++) {
+	    var opt = document.createElement('option');
+	    opt.innerHTML = files[i];
+	    opt.value = files[i];
+	    sel.appendChild(opt);
+	}
+
+bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+	filename = "data/Parameters/"+files[0]+".csv";
+
+	var svg = d3.select("body").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	d3.csv(filename, function(error, data) 
+	{
+		data.forEach(function(d) 
+		{
+			d.date = formatDate(parseDate(d.date));
+			d.value = +d.value;
+   		}
+    );
+
+    // Scale the range of the data
+    x.domain(data.map(function(d) { return d.date; }));
+    y.domain([d3.min(data, function(d) { return d.value; }), d3.max(data, function(d) { return d.value; })]);
+       
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-90)" )
+      
+      svg.append("text")
+      .attr("y", 480)
+      .attr("x", 745)
+      .style("text-anchor", "end")
+      .text("Hours of the day");
+
+  
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Value");
+
+    svg.selectAll("bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class","rectangles")
+      .style("fill", "steelblue")
+      .attr("x", function(d) { return x(d.date); })
+      .attr("width", x.rangeBand()-4)
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", "1px");
+
+});
+
+	
+
+function optionSelection()
+{
+	option = document.getElementById("OptionList").value;
+	filename = "data/Parameters/"+option+".csv";
+
+	d3.csv(filename, function(error, data) 
+	{
+		data.forEach(function(d) 
+			{
+		    	d.date = formatDate(parseDate(d.date));
+		    	d.value = +d.value;
+	    	}
+    	);
+
+      x.domain(data.map(function(d) { return d.date; }));
+	   y.domain([d3.min(data, function(d) { return d.value; }), d3.max(data, function(d) { return d.value; })]);
+
+
+     d3.select(".y.axis").remove();
+
+      d3.selectAll(".rectangles").remove();
+
+      svg.selectAll("bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class","rectangles")
+      .style("fill", "steelblue")
+      .attr("x", function(d) { return x(d.date); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", "1px");
+
+      svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Value");
+	   
+	    
+
+	});
+
+}
+	
+</script>
+</html>
